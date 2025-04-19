@@ -4,7 +4,7 @@ provider "aws" {
 
 resource "aws_key_pair" "devops_key" {
   key_name   = "devops-key"
-  public_key = var.public_key
+  public_key = var.public_key  # Public key passed from GitHub secrets
 }
 
 resource "aws_security_group" "devops_sg" {
@@ -46,8 +46,8 @@ resource "aws_instance" "devops_instance" {
   provisioner "remote-exec" {
     connection {
       type        = "ssh"
-      user        = "ubuntu"
-      private_key = var.ec2_ssh_private_key
+      user        = "ubuntu"  # Ensure this is the correct username for your AMI
+      private_key = var.ec2_ssh_private_key  # Private key passed securely
       host        = self.public_ip
     }
 

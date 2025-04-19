@@ -1,0 +1,63 @@
+name: CI/CD Pipelines
+
+on: 
+  push:
+    branches:
+        - main
+  pull_request:
+    branches:
+        - main
+
+
+jobs:
+    # Job 1: Linting and Testing
+    lint_and_test:
+        runs-on: ubuntu-latest
+    
+        steps:
+            - name: Checkout Code
+              uses: actions/checkout@v2
+
+            - name: Setup Python
+              uses: actions/setup-python@v2
+              with:
+                python-version: '3.11'
+
+            - name: Install Dependencies
+              run: | 
+                pip install -r app/requirments.txt
+
+            - name: Run Linting (flake8)
+              run: |
+                pip install flake8
+                flake8 app/
+
+            - name: Run Tests (pytest)
+              run: |
+                pip install pytest
+                pytest --maxfail=1 --disable-warnings -q
+
+
+    # Job 2: Build and Push Docker Image to Docker Hub
+    build_and_push:
+        runs-on: ubuntu-latest
+        needs: lint_and_test
+        
+        steps:
+            - name: Checkout Code
+              uses: actions/checkout@v2
+
+            - name: Login to Docker Hub
+              uses: docker/login-action@v2
+              with:
+                username: ${{ secrets.DOCKERHUB_USERNAME }}
+                password: ${{ secrets.DOCKERHUB_PASSWORD }}
+
+            - name: Build Docker Image
+              run: |
+                docker-compose -f docker-compose.yml build
+
+            - name: Push Docker Image to DOCKERHUB
+              run: |
+                docker tag devops-flask-blog:latest neebahassan/devops-flask-blog:latest
+                docker push neebahassan/devops-flask-blog:latest

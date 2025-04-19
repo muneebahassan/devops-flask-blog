@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+<head><title>Blog</title></head>
+<body>
+    <h1>My DevOps Blog</h1>
+    <a href="/add">Add New Post</a>
+    {% for post in posts %}
+        <h2>{{ post.title }}</h2>
+        <p>{{ post.content }}</p>
+        <hr>
+    {% endfor %}
+</body>
+</html>

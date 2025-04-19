@@ -35,6 +35,9 @@ jobs:
           pip install flake8
           flake8 app/
 
+      - name: Set PYTHONPATH
+        run: echo "PYTHONPATH=$PYTHONPATH:$(pwd)/app" >> $GITHUB_ENV
+
       - name: Run Tests (pytest)
         run: |
           pip install pytest

@@ -60,7 +60,7 @@ jobs:
 
       - name: Build Docker Image
         run: |
-          docker build -t neebahassan/devops-flask-blog:latest .
+          docker build -f Dockerfile -t neebahassan/devops-flask-blog:latest .
 
       - name: Push Docker Image to Docker Hub
         run: |

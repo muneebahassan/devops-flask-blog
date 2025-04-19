@@ -1,7 +1,7 @@
 variable "aws_region" {
   description = "AWS region"
   type        = string
-  default     = "us-east-1"
+  default     = "eu-north-1"
 }
 
 variable "ami_id" {
@@ -15,12 +15,13 @@ variable "instance_type" {
   default     = "t2.micro"
 }
 
-variable "public_key_path" {
-  description = "Path to the public SSH key"
-  type        = string
-}
-
 variable "ec2_ssh_private_key" {
   description = "Private SSH key for EC2 access"
   type        = string
 }
+
+variable "public_key" {
+  description = "Public SSH key content"
+  type        = string
+}
+

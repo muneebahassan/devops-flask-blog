@@ -1,1 +1,5 @@
-flask==2.3.2
+Flask
+Werkzeug<3.0.0  # Pin version for compatibility with Flask
+pytest
+pytest-cov
+
